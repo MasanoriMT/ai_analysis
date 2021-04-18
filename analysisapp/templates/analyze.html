@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action='' method='POST'>{% csrf_token %}
+    <div class="form-group">
+        <label for="image_path">Image file input</label>
+        <input type="text" id="image_path" class="form-control" placeholder="image file path" name="image_path" required autofocus>
+    </div>
+    <a href="{% url 'list' %}">
+    <button class="btn btn-lg btn-secondary" type="button">Back</button>
+    </a>
+    <button class="btn btn-lg btn-primary" type="submit">Analyze</button>
+</form>
+
+{% endblock content %}

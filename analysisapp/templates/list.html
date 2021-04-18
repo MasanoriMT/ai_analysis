@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<style>
+    .card{
+        margin-bottom : 30px;
+    }
+</style>
+{% endblock header %}
+
+{% block content %}
+
+<div class='container'>
+    <a href="{% url 'analyze' %}" class="btn btn-primary mb-3">Analysis execution</a>
+
+    {% for item in object_list %}
+    <div class="card">
+        <h5 class="card-header">{{ item.image_path }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">message：{{ item.message }}</h5>
+            <h5 class="card-title">class：{{ item.class_field }}</h5>
+            <h5 class="card-title">confidence：{{ item.confidence }}</h5>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

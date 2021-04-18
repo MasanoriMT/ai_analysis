@@ -1,0 +1,23 @@
+#!/bin/sh
+
+export MYSQL_PWD=${MYSQL_ROOT_PASSWORD}
+CMD_MYSQL_CONNECT="mysql -uroot"
+
+RESULT=$(echo "SHOW DATABASES;" | ${CMD_MYSQL_CONNECT} 2>&1)
+if [ $(echo ${RESULT} | grep sample_db | wc -c) -ne 0 ]; then
+    echo "Database already exists."
+    exit 1
+fi
+
+${CMD_MYSQL_CONNECT} -e "GRANT ALL ON *.* TO 'root'@'%';"
+${CMD_MYSQL_CONNECT} -e "FLUSH PRIVILEGES;"
+${CMD_MYSQL_CONNECT} -e "CREATE DATABASE sample_db DEFAULT CHARACTER SET utf8;"
+echo ""
+
+cd /var/log/mysql
+:> general.log
+:> slow.log
+
+echo "Done"
+
+exit 0

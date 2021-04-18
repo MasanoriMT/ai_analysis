@@ -1,0 +1,47 @@
+version: "3.5"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: db-container
+    volumes:
+      - ./docker/db:/usr/local/sbin:cached
+      - ./docker/db/log:/var/log/mysql:cached
+      - db-data:/var/lib/mysql:cached
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Tokyo
+    ports:
+      - "3306:3306"
+    networks:
+      - container-link
+  web:
+    build: .
+    container_name: web-container
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - container-link
+  mock-up:
+    build: .
+    container_name: example.com
+    command: python3 manage.py runserver 0.0.0.0:80
+    volumes:
+      - .:/code
+    ports:
+      - "8001:80"
+    networks:
+      - container-link
+networks:
+  default:
+    external:
+      name: bridge
+  container-link:
+    name: docker.internal
+volumes:
+  db-data:
