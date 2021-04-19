@@ -1,11 +1,12 @@
 import time
 
-from .repositories import AiAnalysisLogRepository
+from .repositories import AbstractAiAnalysisLogRepository
 from .entities import AiAnalysisLogEntity
 
 
 class AnalyzeService:
-    ai_analysis_log_repository: AiAnalysisLogRepository = AiAnalysisLogRepository()
+    def __init__(self, repository:AbstractAiAnalysisLogRepository):
+        self.__ai_analysis_log_repository = repository
 
     def analyze(self, image_path: str) -> bool:
         """
@@ -21,7 +22,7 @@ class AnalyzeService:
             if ai_analysis_log_entity is None:
                 return False
 
-            self.ai_analysis_log_repository.save(ai_analysis_log_entity)
+            self.__ai_analysis_log_repository.save(ai_analysis_log_entity)
         except:
             return False
 
@@ -40,7 +41,7 @@ class AnalyzeService:
         ai_analysis_log_entity.image_path = image_path
         ai_analysis_log_entity.request_timestamp = int(time.time())
 
-        response = self.ai_analysis_log_repository.call_analyze(image_path)
+        response = self.__ai_analysis_log_repository.call_analyze(image_path)
         if not response['success']:
             return None
 

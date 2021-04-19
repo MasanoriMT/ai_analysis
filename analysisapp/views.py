@@ -6,6 +6,7 @@ from django.views.generic import ListView, FormView
 from .services import (
     AnalyzeService,
 )
+from .repositories import AiAnalysisLogRepository
 
 from .models import AiAnalysisLog
 
@@ -27,7 +28,7 @@ class AnalyzeView(FormView):
         """
         画像分析を実行する
         """
-        analyze_service = AnalyzeService()
+        analyze_service = AnalyzeService(AiAnalysisLogRepository())
         image_path = request.POST.get('image_path')
         result = analyze_service.analyze(
             image_path=image_path

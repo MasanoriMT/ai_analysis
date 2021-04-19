@@ -1,5 +1,6 @@
 import json
 import urllib.request
+from abc import ABCMeta, abstractmethod
 
 from typing import Dict
 
@@ -9,7 +10,17 @@ from .models import AiAnalysisLog
 ANALYZE_API_ENDPOINT = 'http://example.com/mock-up/analyze/'
 
 
-class AiAnalysisLogRepository:
+class AbstractAiAnalysisLogRepository(metaclass=ABCMeta):
+    @abstractmethod
+    def call_analyze(self, image_path: str) -> Dict:
+        pass
+
+    @abstractmethod
+    def save(self, ai_analysis_log: AiAnalysisLogEntity) -> None:
+        pass
+
+
+class AiAnalysisLogRepository(AbstractAiAnalysisLogRepository):
     def call_analyze(self, image_path: str) -> Dict:
         """
         画像分析API呼び出し
