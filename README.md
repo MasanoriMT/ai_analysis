@@ -6,10 +6,11 @@
 > docker-compose up -d
 
 > docker-compose ps
-      Name                     Command               State                 Ports
-----------------------------------------------------------------------------------------------
-ai_analysis_db_1    docker-entrypoint.sh mysqld      Up      0.0.0.0:3306->3306/tcp, 33060/tcp
-ai_analysis_web_1   python3 app/manage.py runs ...   Up      0.0.0.0:8000->8000/tcp
+    Name                   Command               State                 Ports              
+------------------------------------------------------------------------------------------
+db-container    docker-entrypoint.sh mysqld      Up      0.0.0.0:3306->3306/tcp, 33060/tcp
+example.com     python3 manage.py runserve ...   Up      0.0.0.0:8001->80/tcp             
+web-container   python3 manage.py runserve ...   Up      0.0.0.0:8000->8000/tcp   
 ```
 
 ## DB 作成
@@ -27,6 +28,10 @@ Done
 ```
 
 # 実行
+
+```
+> docker-compose restart
+```
 
 以下のURLにアクセスします。
 
