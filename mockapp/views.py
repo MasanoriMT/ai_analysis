@@ -8,7 +8,7 @@ from typing import Dict
 
 @csrf_exempt
 def analyze(request: HttpRequest) -> JsonResponse:
-    if int(random.uniform(1, 10)) >= 2:
+    if int(random.uniform(1, 11)) >= 2:
         # do something...
         time.sleep(int(random.uniform(1, 3)))
         data = make_success_reponse()
